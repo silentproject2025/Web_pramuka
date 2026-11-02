@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ruang Angkatan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--kertas:#fcfcf8;--garis:#bdd3ea;--margin:#e5646c;--tinta:#20359b;--pensil:#3b3b3b;--selotip:rgba(255,226,77,.62)}
+*{box-sizing:border-box}
+body{margin:0;background:#eef0f2;color:var(--pensil);font:16px/28px 'Atkinson Hyperlegible',system-ui,sans-serif}
+[hidden]{display:none!important}
+button{font:inherit;cursor:pointer}
+a,.ln{color:var(--tinta)}
+.ln{background:none;border:0;padding:0;text-decoration:underline}
+:focus-visible{outline:2px solid var(--tinta);outline-offset:2px}
+.hd,.lembar,footer{max-width:960px;margin:0 auto}
+.hd{padding:28px 20px 28px}
+.label{display:inline-block;max-width:100%;background:var(--kertas);border:2px solid var(--tinta);border-radius:6px;padding:10px 22px 12px;transform:rotate(-1.4deg);box-shadow:3px 3px 0 var(--garis)}
+.label div{display:flex;gap:10px;align-items:baseline;min-height:44px}
+.k{font-style:normal;font-size:14px;flex:none}
+.label b{font:700 clamp(26px,7.5vw,42px)/1.15 Kalam,'Segoe Print',cursive;color:var(--tinta);border-bottom:1.5px dotted var(--tinta);flex:1}
+.label b.kecil{font-size:clamp(20px,5.5vw,26px)}
+.intro{max-width:34em;margin:28px 0 14px}
+.aksi{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:0}
+.tb{background:var(--tinta);color:#fff;border:0;border-radius:4px;padding:5px 16px}
+.only-admin{display:none}body.admin .only-admin{display:inline-block}
+.lembar{position:relative;background-color:var(--kertas);background-image:repeating-linear-gradient(to bottom,transparent 0 27px,var(--garis) 27px 28px);padding:28px 20px 28px 76px;margin-bottom:28px;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.lembar::before{content:"";position:absolute;top:0;bottom:0;left:52px;width:4px;border:solid var(--margin);border-width:0 1.5px}
+h2{font:700 32px/56px Kalam,'Segoe Print',cursive;color:var(--tinta);margin:0}
+.cari{height:56px}
+.cari input{height:28px;padding:0}
+input,textarea{width:100%;font:19px/28px Kalam,'Segoe Print',cursive;color:var(--tinta);border:0;border-bottom:1.5px solid var(--tinta);background:transparent;border-radius:0}
+textarea{resize:vertical;min-height:84px;border:1.5px solid var(--tinta);padding:0 6px}
+.list{columns:2 290px;column-gap:48px}
+.e{break-inside:avoid}
+.e h3{font:700 24px/28px Kalam,'Segoe Print',cursive;color:var(--tinta);margin:0}
+.e dl{margin:0}
+.e dl div{display:flex;gap:8px}
+.e dt{width:56px;flex:none;font-size:14px}
+.e dd{margin:0;font:19px/28px Kalam,'Segoe Print',cursive;color:var(--tinta);flex:1;min-width:0;overflow-wrap:anywhere}
+.pesan{margin:0;font:19px/28px Kalam,'Segoe Print',cursive}
+.adm{margin:0;font-size:14px}
+.sp{height:28px}
+.pics{columns:2 230px;column-gap:30px}
+.foto{break-inside:avoid;position:relative;margin:14px 0 28px;transform:rotate(var(--r,0deg))}
+.foto:nth-child(3n+1){--r:-1.4deg}.foto:nth-child(3n+2){--r:1.1deg}.foto:nth-child(3n){--r:-.4deg}
+.foto::before{content:"";position:absolute;top:-12px;left:50%;width:86px;height:24px;margin-left:-43px;background:var(--selotip);transform:rotate(-3deg);z-index:1}
+.foto img{width:100%;display:block;box-shadow:0 1px 4px rgba(0,0,0,.35);background:#ddd}
+.foto figcaption{font:19px/28px Kalam,'Segoe Print',cursive;color:var(--tinta);padding-top:6px}
+.foto .ln{font:14px 'Atkinson Hyperlegible',sans-serif}
+.kosong{margin:0}
+footer{padding:0 20px 40px;font-size:14px}
+dialog{border:2px solid var(--tinta);border-radius:6px;padding:20px;width:calc(100% - 28px);max-width:440px;background:var(--kertas);color:var(--pensil)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog h3{font:700 26px/36px Kalam,'Segoe Print',cursive;color:var(--tinta);margin:0 0 6px}
+label{display:block;font-size:14px;margin-top:10px;line-height:20px}
+.sub{display:flex;gap:18px;align-items:center;margin-top:18px}
+.bantu{font-size:13px;color:#666;margin:0;line-height:18px}
+#toast{position:fixed;left:14px;bottom:14px;max-width:calc(100% - 28px);background:var(--tinta);color:#fff;padding:6px 14px;border-radius:4px;display:none;z-index:9}
+#toast.on{display:block}
+@media(max-width:560px){.lembar{padding:28px 14px 28px 56px}.lembar::before{left:36px}h2{font-size:27px}}
+</style>
+</head>
+<body>
+<header class="hd">
+  <div class="label">
+    <div><i class="k">Nama :</i><b>Angkatan 2026</b></div>
+    <div><i class="k">Isi :</i><b class="kecil"><span id="count">0</span> biodata, <span id="pcount">0</span> foto</b></div>
+  </div>
+  <p class="intro">Biodata teman-teman satu angkatan dan foto-foto kita. Isi biodatamu supaya ikut tercatat di sini.</p>
+  <p class="aksi">
+    <button class="tb" onclick="openForm()">Tambah biodata</button>
+    <a href="#teman">Lihat biodata</a>
+    <a href="#foto">Lihat foto</a>
+    <button class="tb only-admin" onclick="document.getElementById('pf').click()">Unggah foto</button>
+  </p>
+</header>
+
+<section class="lembar" id="teman">
+  <h2>Biodata teman-teman</h2>
+  <div class="cari"><input id="q" type="search" placeholder="Cari nama, kelas, atau hobi" oninput="draw()" aria-label="Cari biodata"></div>
+  <div class="list" id="people"></div>
+</section>
+
+<section class="lembar" id="foto">
+  <h2>Foto-foto</h2>
+  <div class="pics" id="pics"></div>
+</section>
+
+<footer><button class="ln" id="who" onclick="adminClick()">Masuk admin</button></footer>
+<input type="file" id="pf" accept="image/*" multiple hidden onchange="uploadPhotos(event)">
+
+<dialog id="dForm"><form id="fm">
+  <h3 id="ttl">Tambah biodata</h3>
+  <input type="hidden" id="eid">
+  <label for="mName">Nama lengkap</label><input id="mName" required maxlength="100">
+  <label for="mCls">Kelas</label><input id="mCls" placeholder="Contoh: X.E5" maxlength="30">
+  <label for="mBirth">Tempat dan tanggal lahir</label><input id="mBirth" placeholder="Contoh: Payakumbuh/12 Mei 2010" maxlength="80">
+  <label for="mHobby">Hobi</label><input id="mHobby" maxlength="100">
+  <label for="mContact">Kontak atau Instagram</label><input id="mContact" maxlength="60">
+  <label for="mBio">Pesan singkat</label><textarea id="mBio" maxlength="500"></textarea>
+  <div id="codeRow"><label for="mCode">Kode angkatan</label><input id="mCode" autocomplete="off"><p class="bantu">Tanya kodenya ke pengurus angkatan.</p></div>
+  <div class="sub"><button class="tb">Simpan biodata</button><button type="button" class="ln" onclick="this.closest('dialog').close()">Batal</button></div>
+</form></dialog>
+
+<dialog id="dLogin"><form id="fl">
+  <h3>Masuk admin</h3>
+  <label for="lEmail">Email</label><input id="lEmail" type="email" required>
+  <label for="lPass">Password</label><input id="lPass" type="password" required>
+  <div class="sub"><button class="tb">Masuk</button><button type="button" class="ln" onclick="this.closest('dialog').close()">Batal</button></div>
+</form></dialog>
+
+<div id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const sb=supabase.createClient('https://vklamvzbxugkhdvkphsw.supabase.co','sb_publishable_sedMIUbXLl2oEeEI_clIaw_3Lnu0EDE');
+const $=i=>document.getElementById(i);
+let M=[],P=[],admin=false;
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nice=s=>esc(String(s||'').toLowerCase().replace(/(^|[\s'\-\/.])(\p{L})/gu,(m,a,b)=>a+b.toUpperCase()));
+const url=p=>sb.storage.from('photos').getPublicUrl(p.path).data.publicUrl;
+function say(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(say.t);say.t=setTimeout(()=>e.classList.remove('on'),3000)}
+async function ok(p,m){const r=await p;if(r.error){say('Gagal: '+r.error.message);console.error(r.error);return false}if(m)say(m);return true}
+async function load(){const [a,b]=await Promise.all([sb.from('members').select('*').order('created_at',{ascending:false}),sb.from('photos').select('*').order('created_at',{ascending:false})]);if(a.error||b.error){say('Data gagal dimuat. Coba muat ulang halaman.');console.error(a.error||b.error);return}M=a.data;P=b.data;draw()}
+function ent(m){const r=[['Lahir',m.birth],['Kelas',m.cls],['Hobi',m.hobby],['Kontak',m.contact]].map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v||'-')}</dd></div>`).join('');return `<article class="e"><h3>${nice(m.name)}</h3><dl>${r}</dl>${m.bio?`<p class="pesan">${esc(m.bio)}</p>`:''}${admin?`<p class="adm"><button class="ln" onclick="openForm('${m.id}')">ubah</button> <button class="ln" onclick="delM('${m.id}')">hapus</button></p>`:''}<div class="sp"></div></article>`}
+function pic(p){return `<figure class="foto"><img src="${url(p)}" alt="${esc(p.title)}" loading="lazy"><figcaption>${esc(p.title)}${admin?` <button class="ln" onclick="editP('${p.id}')">ubah</button> <button class="ln" onclick="delP('${p.id}')">hapus</button>`:''}</figcaption></figure>`}
+function draw(){const q=$('q').value.toLowerCase();const l=M.filter(m=>[m.name,m.cls,m.hobby,m.contact].join(' ').toLowerCase().includes(q));$('count').textContent=M.length;$('pcount').textContent=P.length;$('people').innerHTML=l.map(ent).join('')||'<p class="kosong">Belum ada biodata yang cocok dengan pencarianmu.</p>';$('pics').innerHTML=P.map(pic).join('')||'<p class="kosong">Belum ada foto. Kirim fotomu ke admin supaya ditempel di sini.</p>';document.body.classList.toggle('admin',admin);$('who').textContent=admin?'Keluar admin':'Masuk admin'}
+function openForm(id){$('fm').reset();$('eid').value=id||'';$('ttl').textContent=id?'Ubah biodata':'Tambah biodata';const m=id&&M.find(x=>x.id===id);if(m){$('mName').value=m.name;$('mCls').value=m.cls;$('mBirth').value=m.birth;$('mHobby').value=m.hobby;$('mContact').value=m.contact;$('mBio').value=m.bio}$('codeRow').hidden=admin;$('mCode').required=!admin;$('dForm').showModal()}
+$('fm').onsubmit=async e=>{e.preventDefault();const id=$('eid').value;const d={name:$('mName').value.trim(),cls:$('mCls').value.trim(),birth:$('mBirth').value.trim(),hobby:$('mHobby').value.trim(),contact:$('mContact').value.trim(),bio:$('mBio').value.trim()};let p;if(id)p=sb.from('members').update(d).eq('id',id);else if(admin)p=sb.from('members').insert(d);else p=sb.rpc('add_member',{p_code:$('mCode').value.trim(),p_name:d.name,p_cls:d.cls,p_birth:d.birth,p_hobby:d.hobby,p_contact:d.contact,p_bio:d.bio});if(await ok(p,id?'Biodata disimpan.':'Biodata ditambahkan.')){$('dForm').close();load()}};
+async function delM(id){const m=M.find(x=>x.id===id);if(!m||!confirm('Hapus biodata '+m.name+'?'))return;if(await ok(sb.from('members').delete().eq('id',id),'Biodata dihapus.'))load()}
+function compress(f){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>{const s=Math.min(1,1100/i.width,1100/i.height),c=document.createElement('canvas');c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext('2d').drawImage(i,0,0,c.width,c.height);c.toBlob(b=>b?res(b):rej(new Error('kompres gagal')),'image/jpeg',.78)};i.onerror=()=>rej(new Error('file bukan gambar'));i.src=URL.createObjectURL(f)})}
+async function uploadPhotos(e){const fs=[...e.target.files].filter(f=>f.type.startsWith('image/'));e.target.value='';if(!fs.length)return;say('Mengunggah foto...');let n=0;for(const f of fs){try{const b=await compress(f),path=Date.now()+'-'+Math.random().toString(16).slice(2)+'.jpg';const u=await sb.storage.from('photos').upload(path,b,{contentType:'image/jpeg'});if(u.error)throw u.error;const r=await sb.from('photos').insert({title:f.name.replace(/\.[^.]+$/,'').slice(0,100),date_text:'',path});if(r.error)throw r.error;n++}catch(x){console.error(x);say('Gagal unggah: '+x.message)}}if(n){say(n+' foto ditambahkan.');load()}}
+async function editP(id){const p=P.find(x=>x.id===id);const t=p&&prompt('Keterangan foto',p.title);if(t&&t.trim()&&await ok(sb.from('photos').update({title:t.trim().slice(0,100)}).eq('id',id),'Keterangan disimpan.'))load()}
+async function delP(id){const p=P.find(x=>x.id===id);if(!p||!confirm('Hapus foto ini?'))return;await sb.storage.from('photos').remove([p.path]);if(await ok(sb.from('photos').delete().eq('id',id),'Foto dihapus.'))load()}
+async function adminClick(){if(admin){await sb.auth.signOut();return}$('dLogin').showModal()}
+$('fl').onsubmit=async e=>{e.preventDefault();const r=await sb.auth.signInWithPassword({email:$('lEmail').value.trim(),password:$('lPass').value});if(r.error){say('Login gagal: '+r.error.message);return}$('dLogin').close();say('Masuk sebagai admin.')};
+sb.auth.onAuthStateChange((_e,s)=>{admin=!!s;draw()});
+load();
+</script>
+</body>
+</html>
